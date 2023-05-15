@@ -117,7 +117,7 @@ export const Camera = React.forwardRef<unknown, CameraProps>(
       }
       return () => {
         if (stream) {
-          stream.getTracks().forEach(track => {
+          stream.getTracks().forEach((track) => {
             track.stop();
           });
         }
@@ -160,7 +160,7 @@ const initCameraStream = (
 ) => {
   // stop any active streams in the window
   if (stream) {
-    stream.getTracks().forEach(track => {
+    stream.getTracks().forEach((track) => {
       track.stop();
     });
   }
@@ -170,18 +170,18 @@ const initCameraStream = (
     video: {
       deviceId: videoSourceDeviceId ? { exact: videoSourceDeviceId } : undefined,
       facingMode: currentFacingMode,
-      width: { ideal: 1920 },
-      height: { ideal: 1920 },
+      width: { ideal: 600 },
+      height: { ideal: 600 },
     },
   };
 
   if (navigator?.mediaDevices?.getUserMedia) {
     navigator.mediaDevices
       .getUserMedia(constraints)
-      .then(stream => {
+      .then((stream) => {
         setStream(handleSuccess(stream, setNumberOfCameras));
       })
-      .catch(err => {
+      .catch((err) => {
         handleError(err, setNotSupported, setPermissionDenied);
       });
   } else {
@@ -194,10 +194,10 @@ const initCameraStream = (
     if (getWebcam) {
       getWebcam(
         constraints,
-        stream => {
+        (stream) => {
           setStream(handleSuccess(stream, setNumberOfCameras));
         },
-        err => {
+        (err) => {
           handleError(err as Error, setNotSupported, setPermissionDenied);
         },
       );
@@ -210,7 +210,7 @@ const initCameraStream = (
 const handleSuccess = (stream: MediaStream, setNumberOfCameras: SetNumberOfCameras) => {
   navigator.mediaDevices
     .enumerateDevices()
-    .then(r => setNumberOfCameras(r.filter(i => i.kind === 'videoinput').length));
+    .then((r) => setNumberOfCameras(r.filter((i) => i.kind === 'videoinput').length));
 
   return stream;
 };
