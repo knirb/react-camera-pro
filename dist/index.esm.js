@@ -108,6 +108,9 @@ var Camera = React.forwardRef(function (_a, ref) {
         getNumberOfCameras: function () {
             return numberOfCameras;
         },
+        getPermissionDenied: function () {
+            return permissionDenied;
+        },
     }); });
     useEffect(function () {
         initCameraStream(stream, setStream, currentFacingMode, videoSourceDeviceId, setNumberOfCameras, setNotSupported, setPermissionDenied);

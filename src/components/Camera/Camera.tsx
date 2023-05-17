@@ -1,13 +1,5 @@
 import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
-import {
-  CameraProps,
-  FacingMode,
-  Stream,
-  SetStream,
-  SetNumberOfCameras,
-  SetNotSupported,
-  SetPermissionDenied,
-} from './types';
+import { CameraProps, FacingMode, Stream, SetStream, SetNumberOfCameras, SetNotSupported } from './types';
 import { Container, Wrapper, Canvas, Cam, ErrorMsg } from './styles';
 
 export const Camera = React.forwardRef<unknown, CameraProps>(
@@ -25,6 +17,9 @@ export const Camera = React.forwardRef<unknown, CameraProps>(
         canvas: 'Canvas is not supported.',
       },
       videoReadyCallback = () => null,
+      permissionDeniedCallback = () => {
+        return;
+      },
     },
     ref,
   ) => {
@@ -40,6 +35,11 @@ export const Camera = React.forwardRef<unknown, CameraProps>(
     useEffect(() => {
       numberOfCamerasCallback(numberOfCameras);
     }, [numberOfCameras]);
+
+    const setPermissionDeniedWithCallback = (value: boolean) => {
+      setPermissionDenied(value);
+      permissionDeniedCallback();
+    };
 
     useImperativeHandle(ref, () => ({
       takePhoto: () => {
@@ -111,7 +111,7 @@ export const Camera = React.forwardRef<unknown, CameraProps>(
         videoSourceDeviceId,
         setNumberOfCameras,
         setNotSupported,
-        setPermissionDenied,
+        setPermissionDeniedWithCallback,
       );
     }, [currentFacingMode, videoSourceDeviceId]);
 
@@ -160,7 +160,7 @@ const initCameraStream = (
   videoSourceDeviceId: string | undefined,
   setNumberOfCameras: SetNumberOfCameras,
   setNotSupported: SetNotSupported,
-  setPermissionDenied: SetPermissionDenied,
+  setPermissionDenied: (arg: boolean) => void,
 ) => {
   // stop any active streams in the window
   if (stream) {
@@ -219,7 +219,7 @@ const handleSuccess = (stream: MediaStream, setNumberOfCameras: SetNumberOfCamer
   return stream;
 };
 
-const handleError = (error: Error, setNotSupported: SetNotSupported, setPermissionDenied: SetPermissionDenied) => {
+const handleError = (error: Error, setNotSupported: SetNotSupported, setPermissionDenied: (arg: boolean) => void) => {
   console.error(error);
 
   //https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
