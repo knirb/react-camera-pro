@@ -196,6 +196,8 @@ var handleSuccess = function (stream, setNumberOfCameras) {
 };
 var handleError = function (error, setNotSupported, setPermissionDenied) {
     console.error(error);
+    console.error(error.name);
+    console.error(error.name === 'NotAllowedError');
     //https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
     if (error.name === 'PermissionDeniedError' || error.name === 'NotAllowedError') {
         setPermissionDenied(true);
