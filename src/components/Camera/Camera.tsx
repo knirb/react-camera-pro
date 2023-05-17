@@ -97,6 +97,10 @@ export const Camera = React.forwardRef<unknown, CameraProps>(
       getNumberOfCameras: () => {
         return numberOfCameras;
       },
+
+      getPermissionDenied: () => {
+        return permissionDenied;
+      },
     }));
 
     useEffect(() => {
@@ -170,8 +174,8 @@ const initCameraStream = (
     video: {
       deviceId: videoSourceDeviceId ? { exact: videoSourceDeviceId } : undefined,
       facingMode: currentFacingMode,
-      width: { ideal: 600 },
-      height: { ideal: 600 },
+      width: { ideal: 1920 },
+      height: { ideal: 1920 },
     },
   };
 
