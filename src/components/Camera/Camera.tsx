@@ -38,7 +38,6 @@ export const Camera = React.forwardRef<unknown, CameraProps>(
 
     const setPermissionDeniedWithCallback = (value: boolean) => {
       setPermissionDenied(value);
-      console.log('Running permissionDeniedCallback');
       permissionDeniedCallback();
     };
 
@@ -222,8 +221,6 @@ const handleSuccess = (stream: MediaStream, setNumberOfCameras: SetNumberOfCamer
 
 const handleError = (error: Error, setNotSupported: SetNotSupported, setPermissionDenied: (arg: boolean) => void) => {
   console.error(error);
-  console.error(error.name);
-  console.error(error.name === 'NotAllowedError');
 
   //https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
   if (error.name === 'PermissionDeniedError' || error.name === 'NotAllowedError') {
