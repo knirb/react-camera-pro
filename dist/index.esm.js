@@ -43,18 +43,24 @@ var Camera = React.forwardRef(function (_a, ref) {
         permissionDenied: 'Permission denied. Please refresh and give camera permission.',
         switchCamera: 'It is not possible to switch camera to different one because there is only one video device accessible.',
         canvas: 'Canvas is not supported.',
-    } : _f, _g = _a.videoReadyCallback, videoReadyCallback = _g === void 0 ? function () { return null; } : _g;
+    } : _f, _g = _a.videoReadyCallback, videoReadyCallback = _g === void 0 ? function () { return null; } : _g, _h = _a.permissionDeniedCallback, permissionDeniedCallback = _h === void 0 ? function () {
+        return;
+    } : _h;
     var player = useRef(null);
     var canvas = useRef(null);
     var container = useRef(null);
-    var _h = useState(0), numberOfCameras = _h[0], setNumberOfCameras = _h[1];
-    var _j = useState(null), stream = _j[0], setStream = _j[1];
-    var _k = useState(facingMode), currentFacingMode = _k[0], setFacingMode = _k[1];
-    var _l = useState(false), notSupported = _l[0], setNotSupported = _l[1];
-    var _m = useState(false), permissionDenied = _m[0], setPermissionDenied = _m[1];
+    var _j = useState(0), numberOfCameras = _j[0], setNumberOfCameras = _j[1];
+    var _k = useState(null), stream = _k[0], setStream = _k[1];
+    var _l = useState(facingMode), currentFacingMode = _l[0], setFacingMode = _l[1];
+    var _m = useState(false), notSupported = _m[0], setNotSupported = _m[1];
+    var _o = useState(false), permissionDenied = _o[0], setPermissionDenied = _o[1];
     useEffect(function () {
         numberOfCamerasCallback(numberOfCameras);
     }, [numberOfCameras]);
+    var setPermissionDeniedWithCallback = function (value) {
+        setPermissionDenied(value);
+        permissionDeniedCallback();
+    };
     useImperativeHandle(ref, function () { return ({
         takePhoto: function () {
             var _a, _b, _c, _d;
@@ -113,7 +119,7 @@ var Camera = React.forwardRef(function (_a, ref) {
         },
     }); });
     useEffect(function () {
-        initCameraStream(stream, setStream, currentFacingMode, videoSourceDeviceId, setNumberOfCameras, setNotSupported, setPermissionDenied);
+        initCameraStream(stream, setStream, currentFacingMode, videoSourceDeviceId, setNumberOfCameras, setNotSupported, setPermissionDeniedWithCallback);
     }, [currentFacingMode, videoSourceDeviceId]);
     useEffect(function () {
         if (stream && player && player.current) {
