@@ -38,6 +38,7 @@ export const Camera = React.forwardRef<unknown, CameraProps>(
 
     const setPermissionDeniedWithCallback = (value: boolean) => {
       setPermissionDenied(value);
+      console.log('Running permissionDeniedCallback');
       permissionDeniedCallback();
     };
 

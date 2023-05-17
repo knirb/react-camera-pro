@@ -66,6 +66,7 @@ var Camera = React__default.forwardRef(function (_a, ref) {
     }, [numberOfCameras]);
     var setPermissionDeniedWithCallback = function (value) {
         setPermissionDenied(value);
+        console.log('Running permissionDeniedCallback');
         permissionDeniedCallback();
     };
     React.useImperativeHandle(ref, function () { return ({
