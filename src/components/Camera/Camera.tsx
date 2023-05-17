@@ -223,7 +223,7 @@ const handleError = (error: Error, setNotSupported: SetNotSupported, setPermissi
   console.error(error);
 
   //https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
-  if (error.name === 'PermissionDeniedError') {
+  if (error.name === 'PermissionDeniedError' || error.name === 'NotAllowedError') {
     setPermissionDenied(true);
   } else {
     setNotSupported(true);
